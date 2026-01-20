@@ -53,15 +53,15 @@ HTML_TEMPLATE = """
         <!-- Forms are used to send the user's choice to the Flask server -->
         <form method="post" action="/">
             <input type="hidden" name="user_choice" value="rock">
-            <button type="submit" class="rock">🗿 ROCK</button>
+            <button type="submit" class="rock" py-click="play('rock')">🗿 ROCK</button>
         </form>
         <form method="post" action="/">
             <input type="hidden" name="user_choice" value="paper">
-            <button type="submit" class="paper">📄 PAPER</button>
+            <button type="submit" class="paper" py-click="play('paper')">📄 PAPER</button>
         </form>
         <form method="post" action="/">
             <input type="hidden" name="user_choice" value="scissors">
-            <button type="submit" class="scissors">✂️ SCISSORS</button>
+            <button type="submit" class="scissors" py-click="play('scissor')">✂️ SCISSORS</button>
         </form>
     </div>
 <script type="py">
