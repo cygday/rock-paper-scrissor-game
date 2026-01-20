@@ -4,4 +4,4 @@ COPY requirements.txt .
 
 RUN pip install flask --no-cache-dir -r requirements.txt
 COPY . .
-CMD ["gunicorn", "app:app", "--bind", "0.0.0.0:10000"]
+CMD ["sh", "-c", "gnicorn app:app --bind", "0.0.0.0:$PORT"]
