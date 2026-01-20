@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python RPS 2026</title>
+    <link rel="stylesheet" href="https://pyscript.net">
+    <script type="module" src="https://pyscript.net"></script>
+</head>
+<body style="font-family: sans-serif; text-align: center; padding: 20px;">
+    <h1>Rock Paper Scissors</h1>
+    <div id="output" style="margin: 20px; font-size: 1.2rem;">Pick your move!</div>
+    
+    <button py-click="play('rock')">Rock</button>
+    <button py-click="play('paper')">Paper</button>
+    <button py-click="play('scissors')">Scissors</button>
+
+    <script type="py">
+        import random
+        from pyscript import display
+
+        def play(user_choice):
+            options = ["rock", "paper", "scissors"]
+            computer_choice = random.choice(options)
+            
+            result = ""
+            if user_choice == computer_choice:
+                result = f"It's a tie! Both chose {user_choice}."
+            elif (user_choice == "rock" and computer_choice == "scissors") or \
+                 (user_choice == "paper" and computer_choice == "rock") or \
+                 (user_choice == "scissors" and computer_choice == "paper"):
+                result = f"You Win! {user_choice} beats {computer_choice}."
+            else:
+                result = f"You Lose! {computer_choice} beats {user_choice}."
+            
+            display(result, target="output", append=False)
+    </script>
+</body>
+</html>
