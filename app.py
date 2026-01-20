@@ -48,12 +48,24 @@ HTML_TEMPLATE = """
     
     <div id="output">TAP A BUTTON TO START!</div>
 
-    <div class="btn-container">
-        <button class="rock" py-click="play('rock')">🗿 ROCK</button>
-        <button class="paper" py-click="play('paper')">📄 PAPER</button>
-        <button class="scissors" py-click="play('scissors')">✂️ SCISSORS</button>
-    </div>
+ <!-- This div will display the result passed from the Flask backend -->
+    <div id="output">{{ result_message }}</div>
 
+    <div class="btn-container">
+        <!-- Forms are used to send the user's choice to the Flask server -->
+        <form method="post" action="/">
+            <input type="hidden" name="user_choice" value="rock">
+            <button type="submit" class="rock">🗿 ROCK</button>
+        </form>
+        <form method="post" action="/">
+            <input type="hidden" name="user_choice" value="paper">
+            <button type="submit" class="paper">📄 PAPER</button>
+        </form>
+        <form method="post" action="/">
+            <input type="hidden" name="user_choice" value="scissors">
+            <button type="submit" class="scissors">✂️ SCISSORS</button>
+        </form>
+    </div>
     <script type="py">
         import random
         from pyscript import display
@@ -80,17 +92,32 @@ HTML_TEMPLATE = """
 </html>
 """
 
-@app.route("/", methods=["GET", "POST"])
-def game():
-    result = None
-    if request.method == "POST":
-        user = request.form.get("choice")
-        comp = random.choice(["rock", "paper", "scissors"])
-        if user == comp: result = f"Tie! Both chose {user}."
-        elif (user == "rock" and comp == "scissors") or (user == "paper" and comp == "rock"):
-            result = f"Win! {user} beats {comp}."
-        else: result = f"Lose! {comp} beats {user}."
-    return render_template_string(HTML_TEMPLATE, result=result)
+def determine_winner(user, computer):
+    """Logic to determine the winner of the game."""
+    if user == computer:
+        return "It's a draw!"
+    elif (user == 'rock' and computer == 'scissors') or \
+         (user == 'scissors' and computer == 'paper') or \
+         (user == 'paper' and computer == 'rock'):
+        return f"You Win! {user.capitalize()} beats {computer}."
+    else:
+        return f"You Lose! {computer.capitalize()} beats {user}."
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+@app.route('/', methods=['GET', 'POST'])
+def game():
+    result_message = "TAP A BUTTON TO START!"
+
+    if request.method == 'POST':
+        user_choice = request.form['user_choice']
+        computer_choice = random.choice(['rock', 'paper', 'scissors'])
+        result_message = determine_winner(user_choice, computer_choice)
+        # Add the choices to the message for clarity
+        result_message = f"You chose {user_choice}, computer chose {computer_choice}. {result_message}"
+
+    # Render the template with the current result message
+    return render_template_string(HTML_TEMPLATE, result_message=result_message)
+
+if __name__ == '__main__':
+    # Run the Flask app on host 0.0.0.0 so it is accessible over a network/container
+    app.run(host='0.0.0.0', port=5000, debug=True)
+
