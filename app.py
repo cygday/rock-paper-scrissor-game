@@ -18,7 +18,7 @@ HTML_TEMPLATE = """
         /* Large Output Text */
         #output { 
             margin: 40px 0; 
-            font-size: 3.5rem; /* Massive text */
+            font-size: 0.5rem; /* Massive text */
             min-height: 150px;
             text-transform: uppercase;
             text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
