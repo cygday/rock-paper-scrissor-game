@@ -64,28 +64,29 @@ HTML_TEMPLATE = """
             <button type="submit" class="scissors">✂️ SCISSORS</button>
         </form>
     </div>
-    <script type="py">
-        import random
-        from pyscript import display
+<script type="py">
+    import random
+    # You must import 'document' to use getElementById
+    from pyscript import document 
 
-        def play(user_choice):
-            options = ["rock", "paper", "scissors"]
-            comp = random.choice(options)
-            
-            # Game Logic
-            if user_choice == comp:
-                msg = f"TIE!<br><small>Both chose {user_choice}</small>"
-            elif (user_choice == "rock" and comp == "scissors") or \
-                 (user_choice == "paper" and comp == "rock") or \
-                 (user_choice == "scissors" and comp == "paper"):
-                msg = f"WIN!<br><small>{user_choice} beats {comp}</small>"
-            else:
-                msg = f"LOSE!<br><small>{comp} beats {user_choice}</small>"
-            
-            # Using display with HTML for line breaks/small text
-            output_div = document.getElementById("output")
-            output_div.innerHTML = msg
-    </script>
+    def play(user_choice):
+        options = ["rock", "paper", "scissors"]
+        comp = random.choice(options)
+        
+        # Game Logic
+        if user_choice == comp:
+            msg = f"TIE!<br><small>Both chose {user_choice}</small>"
+        elif (user_choice == "rock" and comp == "scissors") or \
+             (user_choice == "paper" and comp == "rock") or \
+             (user_choice == "scissors" and comp == "paper"):
+            msg = f"WIN!<br><small>{user_choice} beats {comp}</small>"
+        else:
+            msg = f"LOSE!<br><small>{comp} beats {user_choice}</small>"
+        
+        # Accessing the DOM
+        output_div = document.getElementById("output")
+        output_div.innerHTML = msg
+</script>
 </body>
 </html>
 """
