@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Rock Paper Scissors</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    background:#111;
+    color:white;
+    font-family:Arial Black;
+    text-align:center;
+    padding:20px;
+}
+button {
+    font-size:2rem;
+    padding:20px;
+    margin:10px;
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+}
+.rock {background:#ff4757;color:white;}
+.paper {background:#57606f;color:white;}
+.scissors {background:#2ed573;color:black;}
+#output {
+    margin:30px;
+    font-size:2rem;
+}
+</style>
+</head>
+
+<body>
+
+<h1>ROCK PAPER SCISSORS</h1>
+<div id="output">Make your move</div>
+
+<button class="rock" onclick="play('rock')">🗿 ROCK</button>
+<button class="paper" onclick="play('paper')">📄 PAPER</button>
+<button class="scissors" onclick="play('scissors')">✂️ SCISSORS</button>
+
+<script>
+function play(choice) {
+    fetch("/play", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({choice: choice})
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("output").innerHTML =
+            `${data.result}!<br>${data.message}`;
+    });
+}
+</script>
+
+</body>
+</html>
